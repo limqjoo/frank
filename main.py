@@ -49,32 +49,5 @@ def hello_monkey():
 
     return str(resp)
 
-# game start
-    # assign characters randomly
-    # send welcome text - ask for description of person
-
-# game stage 2
-    # wait 30 seconds
-    # send out exposition texts - send a text each to gf and mum
-    # send a location of the library
-    # wait 2 minutes
-    # send, sorry cant come text, wait for other person
-    # wait 3 minutes for the two people to talk
-    # ask for the code word
-
-# game stage 3
-    # on code word received, test it and send success/fail message
-
-
-@app.route("/", methods=['GET', 'POST'])
-def hello_monkey():
-    """Respond to incoming requests."""
-    resp = VoiceResponse()
-    resp.say("Hello Tom. Your first clue is just around the corner. Walk a few meters and you shall see some trees. Press the key corresponding to the number of trees that you have seen. You're getting close. Be careful. Big sister is watching you!")
-
-    return str(resp)
-
 if __name__ == "__main__":
     app.run(debug=True)
-
-#https://demo.twilio.com/welcome/voice/
