@@ -33,7 +33,7 @@ def sms_receiver():
 
     if (stage==0): # signing up players
         from_number = request.values.get('From', None)
-        if (from_number in characters.keys() and "name" in characters[from_number].keys()):
+        if (from_number in characters.keys() and "name" not in characters[from_number].keys()):
             characters[from_number]["name"] = request.values.get('Body', None)
             resp = MessagingResponse().message("Hi " + characters[from_number]["name"])
             counter = 0
