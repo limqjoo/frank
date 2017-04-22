@@ -34,7 +34,7 @@ def sms_receiver():
     if (stage==0): # signing up players
         from_number = request.values.get('From', None)
         characters[from_number] = {}
-        resp = MessagingResponse().message("Thanks for joining the game. Please send your name.")
+        resp = MessagingResponse().message("Thanks for joining the game player number " + str(player_count+1) + " Please send your name.")
 
         player_count += 1
         if (player_count == max_characters):
@@ -54,11 +54,11 @@ def send_delayed_text():
     time.sleep(10)
     for k in characters.keys():
         message = client.api.account.messages.create(to=k, from_=twilio_number, body="this is text number 1")
-    
+
 
 def game_sequence_1():
     for k in characters.keys():
-        threading.Thread(target=foo).start()
+        threading.Thread(target=send_delayed_text).start()
 
 @app.route("/voice", methods=['GET', 'POST'])
 def hello_monkey():
