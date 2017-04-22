@@ -37,11 +37,16 @@ def sms_receiver():
             characters[from_number]["name"] = request.values.get('Body', None)
             resp = MessagingResponse().message("Hi " + characters[from_number]["name"])
             counter = 0
-            for k,v in characters.items():
-                if ("name" in v.keys()):
-                    counter += 1
-            if (counter >= len(characters)):
+            for v in characters.values():
+                print "VALUES: ", v
+                if "name" in v: counter+=1
+            if counter == max_characters:
+                print "characters reached, start game sequence"
                 game_sequence_1()
+            else:
+                print "added name, waiting for more names"
+            print "current characters: " + str(counter)
+            print "total characters: " + str(len(characters))
         elif (from_number not in characters.keys()):
             characters[from_number] = {}
             resp = MessagingResponse().message("Thanks for joining the game player number " + str(player_count+1) + " Please send your name.")
@@ -53,25 +58,32 @@ def sms_receiver():
             resp = MessagingResponse().message("Please wait until next stage, waiting for all characters to join")
 
         return str(resp)
-    elif (stage==1): #game is ON - receving name
+    elif (stage==2): #game is ON - receving name
         # from_number = request.values.get('From', None)
         # name = request.values.get('Body', None)
         # characters[from_number]["name"] = name
-        resp = MessagingResponse().message("thanks for favourite color")
+        resp = MessagingResponse().message("you are in stage 1")
+        return resp
+    elif (stage==2): #game is ON - receving name
+        # from_number = request.values.get('From', None)
+        # name = request.values.get('Body', None)
+        # characters[from_number]["name"] = name
+        resp = MessagingResponse().message("stage 2: thanks for favourite color")
         return resp
 
 def send_delayed_text():
-    time.sleep(10)
+    time.sleep(2)
+    print "SEND FIRST MSG"
     for k in characters.keys():
         message = client.api.account.messages.create(to=k, from_=twilio_number, body="this is text number 1")
-    time.sleep(20)
+    time.sleep(2)
+    print "SEND SECOND MSG"
     for k in characters.keys():
         message = client.api.account.messages.create(to=k, from_=twilio_number, body="favourite color?")
     stage = 1
 
 def game_sequence_1():
-    for k in characters.keys():
-        threading.Thread(target=send_delayed_text).start()
+    threading.Thread(target=send_delayed_text).start()
 
 @app.route("/voice", methods=['GET', 'POST'])
 def hello_monkey():
