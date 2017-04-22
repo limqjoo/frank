@@ -10,6 +10,7 @@ client = Client(account_sid, auth_token)
 app = Flask(__name__)
 
 stage = 0
+player_count = 0
 characters = {
     0: {
         "name": "Charlie",
@@ -34,12 +35,25 @@ characters = {
 def sms_receiver():
     """responds to text messages from players"""
 
-    resp = MessagingResponse().message("Hello, Mobile Monkey")
-    return str(resp)
+    if (stage==0):
+        characters[player_count][number] = from_number
+        player_count += 1
+        resp = MessagingResponse().message("Thanks for joining the game, your character name is " + characters[player_count][name])
+        return str(resp)
+        if (player_count == len(characters)):
+            stage = 1
+            start_game()
+
 
     """ message = client.api.account.messages.create(to="+12316851234",
                                              from_="+15555555555",
                                              body="Hello there!")"""
+
+def start_game():
+    pass
+        """ message = client.api.account.messages.create(to="+12316851234",
+                                                 from_="+15555555555",
+                                                 body="Hello there!")"""
 
 
 @app.route("/voice", methods=['GET', 'POST'])
