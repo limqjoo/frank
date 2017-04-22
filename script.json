@@ -1,0 +1,4 @@
+[
+  { "character": 0, "delay": 2, "text": "say this: first line", "type": "sms" },
+  { "character": 0, "delay": 2, "text": "say this: second line", "type": "sms" }
+]
