@@ -37,7 +37,7 @@ def sms_receiver():
             characters[from_number]["name"] = request.values.get('Body', None)
             resp = MessagingResponse().message("Hi " + characters[from_number]["name"])
             counter = 0
-            for k,v in characters:
+            for k,v in characters.items():
                 if ("name" in v.keys()):
                     counter += 1
             if (counter >= len(characters)):
