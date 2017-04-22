@@ -2,6 +2,10 @@ from flask import Flask, request
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
+import threading
+import time
+
+twilio_number = "+441494372650"
 
 account_sid = "AC1236670c86e97c36e0e77f6622ae9fb9"
 auth_token = "5cb698f28a9fdc1dbbf147e95ef430b8"
@@ -9,18 +13,8 @@ client = Client(account_sid, auth_token)
 
 stage = 0
 player_count = 0
-characters = {
-    0: {
-        "name": "Charlie",
-        "number": 0,
-        "description": None,
-    },
-    1: {
-        "name": "Lisa",
-        "number": 0,
-        "description": None,
-    }
-}
+max_characters = 2
+characters = {}
 
 app = Flask(__name__)
 
@@ -37,28 +31,34 @@ def sms_receiver():
     global stage
     global player_count
 
-    if (stage==0):
+    if (stage==0): # signing up players
         from_number = request.values.get('From', None)
-        characters[player_count]["number"] = from_number
+        characters[from_number] = {}
+        resp = MessagingResponse().message("Thanks for joining the game. Please send your name.")
+
         player_count += 1
-        resp = MessagingResponse().message("Thanks for joining the game, your character name is " + characters[player_count]["name"])
-        return str(resp)
-        if (player_count == len(characters)):
-
+        if (player_count == max_characters):
+            print "character limit reached"
             stage = 1
-            start_game()
+            game_sequence_1()
 
+        return str(resp)
+    elif (stage==1): #game is ON - receving name
+        from_number = request.values.get('From', None)
+        name = request.values.get('Body', None)
+        characters[from_number]["name"] = name
+        resp = MessagingResponse().message("You are " + name)
+        return resp
 
-    """ message = client.api.account.messages.create(to="+12316851234",
-                                             from_="+15555555555",
-                                             body="Hello there!")"""
+def send_delayed_text():
+    time.sleep(10)
+    for k in characters.keys():
+        message = client.api.account.messages.create(to=k, from_=twilio_number, body="this is text number 1")
+    
 
-def start_game():
-    pass
-    """ message = client.api.account.messages.create(to="+12316851234",
-                                             from_="+15555555555",
-                                             body="Hello there!")"""
-
+def game_sequence_1():
+    for k in characters.keys():
+        threading.Thread(target=foo).start()
 
 @app.route("/voice", methods=['GET', 'POST'])
 def hello_monkey():
