@@ -1,0 +1,46 @@
+all,text,0,You'll receive instructions SMS and phone call. Execute the instructions once you get the message.
+priest,call,10,DO this: stand up and stand to middle of stage facing audience.
+groom,call,0,DO this: walk to middle of stage and stand between person standing there and audience.
+bride,call,0,DO this: walk to the back of the room.
+bidder1,call,20,DO this. start singing wedding music (here comes the bride)
+bidder2,call,0,DO this. start singing wedding music (here comes the bride)
+juror1,call,0,DO this. start singing wedding music (here comes the bride)
+juror2,call,0,DO this. start singing wedding music (here comes the bride)
+juror3,call,0,DO this. start singing wedding music (here comes the bride)
+bride,call,0,"DO this. Walk slowly to the front of the room and stand between people on stage and audience, facing away from audience."
+bidder1,text,20,DO this. Stop singing
+bidder2,text,0,DO this. Stop singing
+juror1,text,0,DO this. Stop singing
+juror2,text,0,DO this. Stop singing
+juror3,text,0,DO this. Stop singing
+priest,text,9,"SAY this. We welcome here today this beloved couple, on this day of joy and love to celebrate an everlasting union."
+auctioneer,call,0,DO this. stand up and join the group on the stage at one side
+priest,text,8,SAY this. Do you have the rings?
+auctioneer,text,6,"SAY this. We have on sale here today, a lovely golden ring. Who would like to buy this golden ring? Starting the bidding at £150 pounds! Do I hear 150? 150?"
+courtroomofficer,call,0,DO this. walk to middle of room and stand in front of the priest
+bidder1,text,5,DO this. stand up and raise your hand SHOUT: 150! DO this. sit down
+bidder2,text,2,DO this. stand up and raise your hand SHOUT: 250! DO this. sit down
+auctioneer,text,2,SAY this. Standing at 250 for the person over there. do I hear 250?
+courtroomofficer,text,6,SAY this. All rise! DO THIS. Guesture both hands towards audience.
+priest,text,5,SAY this. Please be seated.
+priest,text,4,"SAY this. Do you take this person, to be your lawful wedded partner?"
+auctioneer,text,6,"SAY this. Going once, going twice!"
+bidder2,text,1,DO this. stand up SHOUT: 400!
+lawyer1,text,4,DO this: Stand up. SAY this. My client pleads not guilty your honor! DO this: Sit down
+priest,text,6,SAY this. Does anyone know of a reason this couple should not be joined together in holy matrimony? Speak now or or forever hold your peace
+lawyer2,text,12,DO this: stand up and RUN to the centre of the stage. SAY this. Objection your honor! This person is a fraud.
+courtroomofficer,text,10,"SAY this.The whole truth, and nothing but the truth."
+groom,text,8,"SAY this. I take thee to be my spouse, in equal love, to honor you and to cherish you, in sorrow and in joy, till death do us part."
+courtroomofficer,text,10,SAY this. Please raise your right hand! DO this. Raise right hand.
+bride,text,7,DO this. Give ring to partner. SAY this. I give you this ring as an eternal symbol of my love and commitment to you.
+priest,text,8,SAY this. Do you take them to be your partner?
+auctioneer,text,6,SAY this. Is there any person with a higher bid?
+groom,text,4,SAY this. I do.
+bidder1,text,1,DO this. stand up and raise your hand SHOUT: 800!
+juror1,call,2,DO this. stand up SAY Guilty DO this. sit down
+juror2,call,0,DO this. stand up SAY Guilty DO this. sit down
+juror3,call,0,DO this. stand up SAY Guilty DO this. sit down
+auctioneer,text,4,SAY this. Aaaaand the rings are gone! DO this: Point at the groom. SAY this. To the gentleman in the tux.
+priest,text,6,SAY this. I proclaim you married! You may now kiss.
+juror1,call,3,DO this. stand up SAY this. We the jury sentence you to life imprisonment.
+all,text,7,"DO this. stand up, clap and bow to audience"

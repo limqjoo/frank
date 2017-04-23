@@ -19,20 +19,30 @@ client = Client(account_sid, auth_token)
 
 stage = 0
 player_count = 0
-characters = {
-    0: {
-        "name": "John"
-    }
-    # 1: {
-    #     "name": "Patrick"
-    # }
-}
+character_list = ["priest","groom","bride","bidder1","bidder2","juror1","juror2","juror3","auctioneer","lawyer1","lawyer2","courtroomofficer"]
+characters = {}
+
+script_counter = 0
+for line in script:
+    line["id"] = script_counter
+    script_counter += 1
 
 def test_number(number):
     for v in characters.values():
         return v.get('phone', None) == number
 
 app = Flask(__name__)
+
+@app.route("/test_xml", methods=['GET','POST'])
+def xml_test_handler():
+    return "<Response><Pause length=\"2\" /><Say>Do this. do a thing</Say></Response>"
+
+@app.route("/xml/<id>", methods=['GET','POST'])
+def xml_handler(id):
+    print id
+    print script[int(id)]
+    text = script[int(id)]["text"]
+    return "<Response><Pause length=\"2\" /><Say>" + text + "</Say></Response>"
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_receiver():
@@ -49,12 +59,14 @@ def sms_receiver():
         print characters
         print "new player, number in db?", test_number(from_number)
         if (not test_number(from_number)):
-            characters[player_count]["number"] = from_number
+        # if (True):
+            characters.update({ character_list[player_count]: { "phone": from_number } })
+            print "added character", from_number, characters
 
             resp = MessagingResponse().message("You have joined the performance")
 
             player_count += 1
-            if (player_count == len(characters)):
+            if (player_count == len(character_list)):
                 print "all characters filled"
                 stage = 1
                 game_sequence()
@@ -64,21 +76,37 @@ def sms_receiver():
         return str(resp)
     elif (stage==1): #game is ON - receving name
         resp = MessagingResponse().message("The game is now full")
-        return resp
+        return str(resp)
 
 def game_sequence():
     threading.Thread(target=send_delayed_text).start()
 
+def send_line_to_all(msg):
+    print "send to all", msg
+    for c in characters.values():
+        message = client.api.account.messages.create(to=c["phone"], from_=twilio_number, body=msg)
+
 def send_delayed_text():
     for line in script:
-        print "SAY LINE", line
-        to = characters[line["character"]]["number"]
-        print "SEND LINE TO", to
-        time.sleep(line["delay"])
-        if (line["type"] == 'sms'):
-            message = client.api.account.messages.create(to=to, from_=twilio_number, body=line["text"])
-        elif (line["type"] == 'phone'):
-            pass
+        time.sleep(int(line["delay"]))
+        if (line["character"] == 'all'):
+            send_line_to_all(line["text"])
+            continue
+
+        to = characters[line["character"]]["phone"]
+
+        lineType = line.get("type", None)
+
+        print "to:", characters[line["character"]], characters[line["character"]]["phone"], line["text"]
+
+        if (lineType == 'text' or lineType == None):
+            text = line["text"]
+            message = client.api.account.messages.create(to=to, from_=twilio_number, body=text)
+        elif (lineType == 'call'):
+            url = "http://305cec03.ngrok.io/xml/" + str(line["id"])
+            call = client.calls.create(to=to,
+                                       from_=twilio_number,
+                                       url=url)
 
 if __name__ == "__main__":
     app.run(debug=True)
