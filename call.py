@@ -9,11 +9,11 @@ from pprint import pprint
 
 twilio_number = "+441494372650"
 
-account_sid = "AC1236670c86e97c36e0e77f6622ae9fb9"
-auth_token = "5cb698f28a9fdc1dbbf147e95ef430b8"
+account_sid = "....."
+auth_token = "......"
 client = Client(account_sid, auth_token)
 
-call = client.calls.create(to="+447590574540",
+call = client.calls.create(to=".......",
                            from_=twilio_number,
                            url="http://305cec03.ngrok.io/test_xml")
 
